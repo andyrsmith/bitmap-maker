@@ -1,13 +1,17 @@
 CC=gcc
+CODEDIRS=src
+CFILES=$(foreach D,$(CODEDIRS),$(wildcard $(D)/*.c))
 CFLAGS = -Wno-implicit-function-declaration
+OBJECTS=$(patsubst %.c,%.o,$(CFILES))
+BINARY=bin
 
-compile: bitmap-art.c
-	${CC} ${CFLAGS} -c bitmap-art.c
+all: $(BINARY)
 
-link: bitmap-art.o
-	${CC} ${CFLAGS} bitmap-art.o -o bitmap-art
+$(BINARY): $(OBJECTS)
+	$(CC) -o $@ $^
 
-all: link
+%.o:%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm bitmap-art.o bitmap-art
+	rm $(OBJECTS) $(BINARY)
