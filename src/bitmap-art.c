@@ -13,7 +13,6 @@
 //
 int main(int argc, char *argv[])
 {
-
     int length, width;
     char *color;
     int option;
