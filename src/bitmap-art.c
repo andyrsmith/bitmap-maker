@@ -3,6 +3,7 @@
 //inlude for getopt
 #include <unistd.h>
 #include "create-bitmap.h"
+#include "read_bitmap.h"
 
 //run -c create
 // -w width
@@ -11,12 +12,17 @@
 //-v view
 //
 //
+//
+
+
 int main(int argc, char *argv[])
 {
-    int length, width;
-    char *color;
+    int length = 5;
+    int width = 5;
+    char *color = "red";
     int option;
-    bool make_flag;
+    bool make_flag = false;
+    bool read_flag = false;
     char *file_name;
     
     // getopt is a gnu linux function and will return -1 once there is no more arguments
@@ -27,7 +33,8 @@ int main(int argc, char *argv[])
                 file_name = optarg;
                 break;
             case 'r':
-                printf("reading bitmap of %s\n", optarg);
+                read_flag = true;
+                file_name = optarg;
                 break;
             case 'l':
                 length = atoi(optarg);
@@ -42,15 +49,18 @@ int main(int argc, char *argv[])
                 printf("help menu\n");
                 break;
             default:
-                puts("nope");
             }
     }
 
-    if(make_flag){
+    if(make_flag && read_flag) {
+        printf("Please only either -r or -m, not both\n");
+    } else if(make_flag && !read_flag){
         make_bitmap(file_name, length, width, color);
+    } else if(read_flag && !make_flag) {
+        read_bitmap(file_name);
+    } else {
+        printf("Please pass in either -r(read) or -m(make)\n");
     }
 
-    printf("Bitmap created!\n");
     return 0;
 }
-

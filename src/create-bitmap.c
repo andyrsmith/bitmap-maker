@@ -81,6 +81,9 @@ void make_bitmap(char *file_name, int length, int width, char *color)
     fclose(bitmap);
     free(color_arr);
 
+    printf("Bitmap Created!\n");
+    printf("File: %s, width: %d, height: %d, color: %s\n", file_name, width, length, color);
+
 }
 
 void get_hex_color(char *color, char *hex_color){
@@ -94,7 +97,6 @@ void get_hex_color(char *color, char *hex_color){
     // pink ffc0cb
     // yellow ffff00
     if(strcmp(color, "red") == 0) {
-        printf("in here");
         hex_color[2] = 0xff;
     } else if(strcmp(color, "blue") == 0) {
         hex_color[0] = 0xff;
