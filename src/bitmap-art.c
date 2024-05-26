@@ -52,16 +52,17 @@ int main(int argc, char *argv[])
             default:
             }
     }
+    int return_code = 0;
 
     if(make_flag && read_flag) {
         printf("Please only either -r or -m, not both\n");
     } else if(make_flag && !read_flag){
-        make_bitmap(file_name, length, width, color);
+        return_code = make_bitmap(file_name, length, width, color);
     } else if(read_flag && !make_flag) {
-        read_bitmap(file_name);
+        return_code = read_bitmap(file_name);
     } else {
         printf("Please pass in either -r(read) or -m(make)\n");
     }
 
-    return 0;
+    return return_code;
 }

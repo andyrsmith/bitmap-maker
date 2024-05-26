@@ -23,6 +23,7 @@ int read_bitmap(char *file_name)
         read_file(bitmap);
     } else {
         printf("File is not a bitmap\n");
+        return 1;
     }
     fclose(bitmap);
     return 0;

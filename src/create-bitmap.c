@@ -4,7 +4,7 @@
 #include "create-bitmap.h"
 #include "bitmap.h"
 
-void make_bitmap(char *file_name, int length, int width, char *color) 
+int make_bitmap(char *file_name, int length, int width, char *color) 
 {
     bitmap_header bmp_header;
     info_header info_h;
@@ -36,6 +36,10 @@ void make_bitmap(char *file_name, int length, int width, char *color)
     int bitmap_size = get_bitmap_size(length, byte_width, padding_width);
 
     char *color_arr = malloc(bitmap_size * sizeof(char));
+    if(color_arr == NULL) {
+        printf("Unable to allocate memory!\n");
+        return 1;
+    }
 
     int bm_counter = 0;
     for(int i = 0; i < length * (byte_width+padding_width); i++) color_arr[i] = 0;
@@ -52,6 +56,10 @@ void make_bitmap(char *file_name, int length, int width, char *color)
     }
     bmp_header.file_size = sizeof(image_type) + sizeof(bmp_header) + sizeof(info_h) + bitmap_size;
     FILE *bitmap = fopen(file_name, "w+");
+    if(bitmap == NULL) {
+        printf("Unable to open file for editing\n");
+        return 1;
+    }
     fwrite(&image_type , sizeof(image_type), 1, bitmap);
     fwrite(&bmp_header, sizeof(bitmap_header), 1, bitmap);
     fwrite(&info_h, sizeof(info_header), 1, bitmap);
@@ -62,6 +70,8 @@ void make_bitmap(char *file_name, int length, int width, char *color)
 
     printf("Bitmap Created!\n");
     printf("File: %s, width: %d, height: %d, color: %s\n", file_name, width, length, color);
+
+    return 0;
 
 }
 
