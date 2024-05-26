@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
                 color = optarg;
                 break;
             case 'h':
+                //TODO: Add help text
                 printf("help menu\n");
                 break;
             default:

@@ -2,30 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "create-bitmap.h"
-
-typedef struct BITMAP_HEADER {
-    int file_size;
-    int reserved;
-    int file_offset;
-} bitmap_header;
-
-typedef struct INFO_HEADER {
-    int header_size;
-    int width;
-    int height;
-    short int color_plane;
-    short int bit_count;
-    int compression;
-    int image_size;
-    int horizontal_resolution;
-    int vertical_resolution;
-    int color_palette;
-    int important_color;
-} info_header;
+#include "bitmap.h"
 
 void make_bitmap(char *file_name, int length, int width, char *color) 
 {
-    
     bitmap_header bmp_header;
     info_header info_h;
 
@@ -52,10 +32,9 @@ void make_bitmap(char *file_name, int length, int width, char *color)
     get_hex_color(color, bm_color);
 
     int byte_width = width * 3;
-    // determine how much padding is needed. Needs to be a multiple of 4 or 24 bytes
-    int padding_width = byte_width % 4 == 0 ? 0 : (4 - byte_width % 4);
-    int bitmap_size = length * (byte_width+padding_width);
-    //true calloc might not need line 131
+    int padding_width = get_padding_width(byte_width); 
+    int bitmap_size = get_bitmap_size(length, byte_width, padding_width);
+
     char *color_arr = malloc(bitmap_size * sizeof(char));
 
     int bm_counter = 0;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "bitmap.h"
 
 void print_ascii(int grayscale);
 
@@ -26,8 +27,8 @@ int read_bitmap(char *file_name)
 
         // repeated code
         int byte_width = width * 3;
-        int padding_width = byte_width % 4 == 0 ? 0 : (4 - byte_width % 4);
-        int bitmap_size = height * (byte_width+padding_width);
+        int padding_width = get_padding_width(byte_width);
+        int bitmap_size = get_bitmap_size(height, byte_width, padding_width);
 
         fseek(bitmap, 54, SEEK_SET);
     
@@ -41,6 +42,7 @@ int read_bitmap(char *file_name)
                 uint8_t blue = bitmap_array[indx];
                 uint8_t green = bitmap_array[indx+1];
                 uint8_t red = bitmap_array[indx+2];
+
                 //since ascii is made from black images on a white background need to convert colors to grayscal first
                 //This is the pixel instensity of gray values
                 int grayscale = 0.2989 * red + 0.5870 * green + 0.1140 *blue; 
