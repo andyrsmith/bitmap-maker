@@ -31,40 +31,47 @@ To create pass in the -m with the name of the file to create.
 -w: number of pixels wide
 -c: color of image to create.  (color can be either red, orange, black, white, green, or yellow)
 
-Example: bitmap-art -m new.bmp -l 50 -w 50 -c red
+Example: ./bin -m new.bmp -l 50 -w 50 -c red
 
 This will create a red bitmap image 50 pixels x 50 pixels
 
 ### Read
 
-Coming soon
+To read a bitmap and display in ascii art use the -r flag with name of file
+
+Example ./bin -r shovel.bmp
+
+![screenshot of bitmap output](art.jpg)
 
 ## Bitmap file format
 
 Like most binary file format the bitmap file format consist of header to tell what kind of file it is and other information 
 
 Header
-Hex offset  | Number of bytes| Description                               |
-OO          | 2 bytes        | file Identifier.  (BM for windows Bitmap) |
-02          | 4 bytes        | Size of Bitmap  |
-06          | 2 bytes        | reserved.  Can be 0 | 
-08          | 2 bytes        | reserved.  Can be 0 |
-0A          | 4 bytes        | Starting address where pixel array can be found.(where the image starts) |
+
+| Hex offset  | Number of bytes| Description |
+| --------  | ------------- | ----------- | 
+|  00         | 2 bytes        | file Identifier.  (BM for windows Bitmap) |
+|  02          | 4 bytes        | Size of Bitmap  |
+|  06          | 2 bytes        | reserved.  Can be 0 | 
+|  08          | 2 bytes        | reserved.  Can be 0 |
+|  0A          | 4 bytes        | Starting address where pixel array can be found.(where the image starts) |
 
 Bitmap Info Header
 
-Hex offset | Number of bytes | Description |
-0E         | 4 bytes         | size of the header
-12         | 4 bytes         | bitmap width
-16         | 4 bytes         | bitmap height
-1A         | 2 bytes         | number of color planes (always 1)
-1C         | 2 bytes         | Number of bits per pixels.  Values could be 1, 4, 8, 16, 24, 32.  I used 24
-1E         | 4 bytes         | Compression method used (didn't used this.  Just set to 0)
-22         | 4 bytes         | image size.  Size of pixel data
-26         | 4 bytes         | horizontal resolution
-2A         | 4 bytes         | vertical resolution
-2E         | 4 bytes         | number of colors in color palette
-32         | 4 bytes         | number of import colors used
+| Hex offset | Number of bytes | Description |
+| ---------- | --------------- | ----------- |
+| 0E         | 4 bytes         | size of the header
+| 12         | 4 bytes         | bitmap width
+| 16         | 4 bytes         | bitmap height
+| 1A         | 2 bytes         | number of color planes (always 1)
+|1C         | 2 bytes         | Number of bits per pixels.  Values could be 1, 4, 8, 16, 24, 32.  I used 24
+| 1E         | 4 bytes         | Compression method used (didn't used this.  Just set to 0)
+| 22         | 4 bytes         | image size.  Size of pixel data
+| 26         | 4 bytes         | horizontal resolution
+| 2A         | 4 bytes         | vertical resolution
+| 2E         | 4 bytes         | number of colors in color palette
+| 32         | 4 bytes         | number of import colors used
 
 Pixel Data
 
